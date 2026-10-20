@@ -1,0 +1,10 @@
+{
+  "name": "Vendor Hampers",
+  "short_name": "Hampers",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#267eaf",
+  "description": "Vendor hampers custom premium untuk perusahaan, instansi, dan momen spesial.",
+  "lang": "id"
+}
