@@ -1,4 +1,4 @@
-# https://vendorhampers.id/robots.txt
+# https://vendor-hampers.vercel.app//robots.txt
 # Standard Search Engines & AI Answer Engines (2026-2027 standard)
 User-agent: *
 Allow: /
@@ -28,5 +28,5 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://vendorhampers.id/sitemap.xml
+Sitemap: https://vendor-hampers.vercel.app//sitemap.xml
 

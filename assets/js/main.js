@@ -88,13 +88,14 @@
     });
   }
 
-  // --- 5. Portfolio Filter (for portofolio page) ---
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  if (filterBtns.length) {
-    filterBtns.forEach((btn) => {
+  // --- 5. Portfolio & Paket Filter ---
+  const filterContainers = document.querySelectorAll('.filter-buttons, .paket-category-nav');
+  filterContainers.forEach((container) => {
+    const btns = container.querySelectorAll('.filter-btn');
+    btns.forEach((btn) => {
       btn.addEventListener('click', () => {
-        // Update active state
-        filterBtns.forEach((b) => {
+        // Update active state within container
+        btns.forEach((b) => {
           b.classList.remove('active');
           b.setAttribute('aria-pressed', 'false');
         });
@@ -114,7 +115,7 @@
         });
       });
     });
-  }
+  });
 
   // --- 6. Contact Form → WhatsApp ---
   const contactForm = document.getElementById('contact-form');
@@ -122,13 +123,19 @@
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      // Simple validation
+      // Form validation
       const requiredFields = contactForm.querySelectorAll('[required]');
       let isValid = true;
 
       requiredFields.forEach((field) => {
-        const feedback = field.parentElement.querySelector('.invalid-feedback');
-        if (!field.value.trim()) {
+        let fieldValid = true;
+        if (field.type === 'checkbox') {
+          fieldValid = field.checked;
+        } else {
+          fieldValid = field.value.trim().length > 0;
+        }
+
+        if (!fieldValid) {
           field.classList.add('is-invalid');
           isValid = false;
         } else {
@@ -172,11 +179,11 @@
       }
     });
 
-    // Clear validation on input
-    contactForm.querySelectorAll('.form-control, .form-select').forEach((field) => {
-      field.addEventListener('input', () => {
-        field.classList.remove('is-invalid');
-      });
+    // Clear validation on input or change
+    contactForm.querySelectorAll('.form-control, .form-select, .form-check-input').forEach((field) => {
+      const clearInvalid = () => field.classList.remove('is-invalid');
+      field.addEventListener('input', clearInvalid);
+      field.addEventListener('change', clearInvalid);
     });
   }
 
@@ -314,19 +321,6 @@
 
     statNumbers.forEach((el) => counterObserver.observe(el));
   }
-
-  // --- 11. Paket category nav filter buttons ---
-  const paketFilterBtns = document.querySelectorAll('.paket-category-nav .filter-btn');
-  paketFilterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      paketFilterBtns.forEach(b => {
-        b.classList.remove('active');
-        b.setAttribute('aria-pressed', 'false');
-      });
-      btn.classList.add('active');
-      btn.setAttribute('aria-pressed', 'true');
-    });
-  });
 
 })();
 

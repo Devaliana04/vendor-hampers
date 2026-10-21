@@ -1,87 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://vendorhampers.id/</loc>
+    <loc>https://vendor-hampers.vercel.app//</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://vendorhampers.id/tentang/</loc>
+    <loc>https://vendor-hampers.vercel.app//tentang/</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vendorhampers.id/paket/</loc>
+    <loc>https://vendor-hampers.vercel.app//paket/</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://vendorhampers.id/paket/hampers-corporate/</loc>
+    <loc>https://vendor-hampers.vercel.app//paket/hampers-corporate/</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vendorhampers.id/paket/hampers-hari-raya/</loc>
+    <loc>https://vendor-hampers.vercel.app//paket/hampers-hari-raya/</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vendorhampers.id/paket/hampers-custom/</loc>
+    <loc>https://vendor-hampers.vercel.app//paket/hampers-custom/</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vendorhampers.id/paket/hampers-premium/</loc>
+    <loc>https://vendor-hampers.vercel.app//paket/hampers-premium/</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vendorhampers.id/portofolio/</loc>
+    <loc>https://vendor-hampers.vercel.app//portofolio/</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://vendorhampers.id/blog/</loc>
+    <loc>https://vendor-hampers.vercel.app//blog/</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://vendorhampers.id/blog/cara-memilih-hampers-corporate/</loc>
+    <loc>https://vendor-hampers.vercel.app//blog/cara-memilih-hampers-corporate/</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://vendorhampers.id/blog/ide-isi-hampers-lebaran/</loc>
+    <loc>https://vendor-hampers.vercel.app//blog/ide-isi-hampers-lebaran/</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://vendorhampers.id/blog/tips-anggaran-hampers-perusahaan/</loc>
+    <loc>https://vendor-hampers.vercel.app//blog/tips-anggaran-hampers-perusahaan/</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://vendorhampers.id/faq/</loc>
+    <loc>https://vendor-hampers.vercel.app//faq/</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://vendorhampers.id/kontak/</loc>
+    <loc>https://vendor-hampers.vercel.app//kontak/</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vendor-hampers.vercel.app//kebijakan-privasi/</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
   </url>
 </urlset>
