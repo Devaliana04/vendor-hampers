@@ -178,6 +178,7 @@
   // --- 7. Reading Progress Bar, Back-To-Top & Unified Scroll Listener ---
   const articleContent = document.querySelector('.blog-article-content');
   let progBar = null;
+  // tocSections now caches offsetTop to prevent forced reflow during scroll
   const tocSections = [];
 
   if (articleContent) {
@@ -196,9 +197,31 @@
       const targetId = link.getAttribute('href').slice(1);
       const targetEl = document.getElementById(targetId);
       if (targetEl) {
-        tocSections.push({ link, el: targetEl });
+        // Cache offsetTop now (not during scroll) to avoid forced reflow
+        tocSections.push({ link, el: targetEl, top: 0 });
       }
     });
+
+    // Function to refresh cached positions (call once on load and on resize)
+    const refreshTocPositions = () => {
+      tocSections.forEach((s) => {
+        s.top = s.el.getBoundingClientRect().top + window.scrollY;
+      });
+    };
+
+    // Cache on load
+    if (document.readyState === 'complete') {
+      refreshTocPositions();
+    } else {
+      window.addEventListener('load', refreshTocPositions, { once: true });
+    }
+
+    // Re-cache on resize (debounced)
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(refreshTocPositions, 200);
+    }, { passive: true });
   }
 
   // Back to Top Button
@@ -247,12 +270,12 @@
       }
     }
 
-    // 4. Sidebar TOC Scrollspy
+    // 4. Sidebar TOC Scrollspy — use cached .top instead of offsetTop (no forced reflow)
     if (tocSections.length) {
       const scrollPos = scrollY + 140;
       let current = null;
       for (let i = 0; i < tocSections.length; i++) {
-        if (tocSections[i].el.offsetTop <= scrollPos) {
+        if (tocSections[i].top <= scrollPos) {
           current = tocSections[i];
         }
       }
