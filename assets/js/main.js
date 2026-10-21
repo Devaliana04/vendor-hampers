@@ -12,32 +12,19 @@
     yearEl.textContent = new Date().getFullYear();
   }
 
-  // --- 2. Navbar Scroll Effect ---
+  // --- 2. Navbar Reference ---
   const navbar = document.getElementById('navbar-main');
-  if (navbar) {
-    let navTicking = false;
-    const onScroll = () => {
-      if (window.scrollY > 20) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-      navTicking = false;
-    };
-    window.addEventListener('scroll', () => {
-      if (!navTicking) {
-        window.requestAnimationFrame(onScroll);
-        navTicking = true;
-      }
-    }, { passive: true });
-    onScroll();
-  }
 
   // --- 3. Fade-Up Intersection Observer ---
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Immediately reveal above-the-fold content to prevent LCP/FCP delay
+  document.querySelectorAll('#hero .fade-up, .hero-section .fade-up, .article-header .fade-up, .breadcrumb-hampers .fade-up').forEach((el) => {
+    el.classList.add('visible');
+  });
+
   if (!prefersReducedMotion) {
-    const fadeEls = document.querySelectorAll('.fade-up');
+    const fadeEls = document.querySelectorAll('.fade-up:not(.visible)');
     if (fadeEls.length && 'IntersectionObserver' in window) {
       const observer = new IntersectionObserver(
         (entries) => {
@@ -48,7 +35,7 @@
             }
           });
         },
-        { threshold: 0.01, rootMargin: '0px 0px 100px 0px' }
+        { threshold: 0.01, rootMargin: '0px 0px 150px 0px' }
       );
       fadeEls.forEach((el) => {
         observer.observe(el);
@@ -59,7 +46,6 @@
       });
     }
   } else {
-    // If reduced motion, make everything visible immediately
     document.querySelectorAll('.fade-up').forEach((el) => {
       el.classList.add('visible');
     });
@@ -189,11 +175,13 @@
     });
   }
 
-  // --- 7. Reading Progress Bar & TOC Scrollspy for Articles ---
+  // --- 7. Reading Progress Bar, Back-To-Top & Unified Scroll Listener ---
   const articleContent = document.querySelector('.blog-article-content');
+  let progBar = null;
+  const tocSections = [];
+
   if (articleContent) {
-    // Inject reading progress bar
-    let progBar = document.querySelector('.reading-progress-bar');
+    progBar = document.querySelector('.reading-progress-bar');
     if (!progBar) {
       const container = document.createElement('div');
       container.className = 'reading-progress-container';
@@ -203,61 +191,17 @@
       document.body.prepend(container);
     }
 
-    let progressTicking = false;
-    const updateReadingProgress = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalHeight > 0) {
-        const progress = Math.min(100, Math.max(0, (window.scrollY / totalHeight) * 100));
-        progBar.style.width = `${progress}%`;
-      }
-      progressTicking = false;
-    };
-    window.addEventListener('scroll', () => {
-      if (!progressTicking) {
-        window.requestAnimationFrame(updateReadingProgress);
-        progressTicking = true;
-      }
-    }, { passive: true });
-    updateReadingProgress();
-
-    // Scrollspy for sidebar Table of Contents
     const tocLinks = document.querySelectorAll('.blog-sidebar a[href^="#"]');
-    const sections = [];
     tocLinks.forEach((link) => {
       const targetId = link.getAttribute('href').slice(1);
       const targetEl = document.getElementById(targetId);
       if (targetEl) {
-        sections.push({ link, el: targetEl });
+        tocSections.push({ link, el: targetEl });
       }
     });
-
-    if (sections.length) {
-      let spyTicking = false;
-      const onSpyScroll = () => {
-        const scrollPos = window.scrollY + 140;
-        let current = null;
-        for (let i = 0; i < sections.length; i++) {
-          if (sections[i].el.offsetTop <= scrollPos) {
-            current = sections[i];
-          }
-        }
-        sections.forEach((s) => s.link.classList.remove('active', 'fw-bold', 'text-sky'));
-        if (current) {
-          current.link.classList.add('active');
-        }
-        spyTicking = false;
-      };
-      window.addEventListener('scroll', () => {
-        if (!spyTicking) {
-          window.requestAnimationFrame(onSpyScroll);
-          spyTicking = true;
-        }
-      }, { passive: true });
-      onSpyScroll();
-    }
   }
 
-  // --- 8. Back to Top Floating Button ---
+  // Back to Top Button
   let bttBtn = document.querySelector('.back-to-top-btn');
   if (!bttBtn) {
     bttBtn = document.createElement('button');
@@ -268,26 +212,68 @@
     document.body.appendChild(bttBtn);
   }
 
-  let bttTicking = false;
-  const handleBttVisibility = () => {
-    if (window.scrollY > 400) {
-      bttBtn.classList.add('visible');
-    } else {
-      bttBtn.classList.remove('visible');
-    }
-    bttTicking = false;
-  };
-  window.addEventListener('scroll', () => {
-    if (!bttTicking) {
-      window.requestAnimationFrame(handleBttVisibility);
-      bttTicking = true;
-    }
-  }, { passive: true });
-  handleBttVisibility();
-
   bttBtn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
+
+  // --- High-Performance Unified Passive Scroll Listener ---
+  let scrollTicking = false;
+  const onGlobalScroll = () => {
+    const scrollY = window.scrollY;
+
+    // 1. Navbar
+    if (navbar) {
+      if (scrollY > 20) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    }
+
+    // 2. Reading Progress
+    if (progBar) {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        progBar.style.width = `${Math.min(100, Math.max(0, (scrollY / totalHeight) * 100))}%`;
+      }
+    }
+
+    // 3. Back to Top Button
+    if (bttBtn) {
+      if (scrollY > 400) {
+        bttBtn.classList.add('visible');
+      } else {
+        bttBtn.classList.remove('visible');
+      }
+    }
+
+    // 4. Sidebar TOC Scrollspy
+    if (tocSections.length) {
+      const scrollPos = scrollY + 140;
+      let current = null;
+      for (let i = 0; i < tocSections.length; i++) {
+        if (tocSections[i].el.offsetTop <= scrollPos) {
+          current = tocSections[i];
+        }
+      }
+      tocSections.forEach((s) => s.link.classList.remove('active', 'fw-bold', 'text-sky'));
+      if (current) {
+        current.link.classList.add('active');
+      }
+    }
+
+    scrollTicking = false;
+  };
+
+  window.addEventListener('scroll', () => {
+    if (!scrollTicking) {
+      window.requestAnimationFrame(onGlobalScroll);
+      scrollTicking = true;
+    }
+  }, { passive: true });
+
+  // Initial trigger
+  onGlobalScroll();
 
   // --- 9. Copy Link Share Button with Toast Feedback ---
   document.querySelectorAll('.share-btn.share-copy').forEach((btn) => {
