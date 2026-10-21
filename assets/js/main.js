@@ -15,14 +15,21 @@
   // --- 2. Navbar Scroll Effect ---
   const navbar = document.getElementById('navbar-main');
   if (navbar) {
+    let navTicking = false;
     const onScroll = () => {
       if (window.scrollY > 20) {
         navbar.classList.add('scrolled');
       } else {
         navbar.classList.remove('scrolled');
       }
+      navTicking = false;
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('scroll', () => {
+      if (!navTicking) {
+        window.requestAnimationFrame(onScroll);
+        navTicking = true;
+      }
+    }, { passive: true });
     onScroll();
   }
 
@@ -44,12 +51,7 @@
         { threshold: 0.01, rootMargin: '0px 0px 100px 0px' }
       );
       fadeEls.forEach((el) => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight + 100) {
-          el.classList.add('visible');
-        } else {
-          observer.observe(el);
-        }
+        observer.observe(el);
       });
     } else {
       document.querySelectorAll('.fade-up').forEach((el) => {
@@ -201,14 +203,21 @@
       document.body.prepend(container);
     }
 
+    let progressTicking = false;
     const updateReadingProgress = () => {
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (totalHeight > 0) {
         const progress = Math.min(100, Math.max(0, (window.scrollY / totalHeight) * 100));
         progBar.style.width = `${progress}%`;
       }
+      progressTicking = false;
     };
-    window.addEventListener('scroll', updateReadingProgress, { passive: true });
+    window.addEventListener('scroll', () => {
+      if (!progressTicking) {
+        window.requestAnimationFrame(updateReadingProgress);
+        progressTicking = true;
+      }
+    }, { passive: true });
     updateReadingProgress();
 
     // Scrollspy for sidebar Table of Contents
@@ -223,6 +232,7 @@
     });
 
     if (sections.length) {
+      let spyTicking = false;
       const onSpyScroll = () => {
         const scrollPos = window.scrollY + 140;
         let current = null;
@@ -235,8 +245,14 @@
         if (current) {
           current.link.classList.add('active');
         }
+        spyTicking = false;
       };
-      window.addEventListener('scroll', onSpyScroll, { passive: true });
+      window.addEventListener('scroll', () => {
+        if (!spyTicking) {
+          window.requestAnimationFrame(onSpyScroll);
+          spyTicking = true;
+        }
+      }, { passive: true });
       onSpyScroll();
     }
   }
@@ -252,14 +268,21 @@
     document.body.appendChild(bttBtn);
   }
 
+  let bttTicking = false;
   const handleBttVisibility = () => {
     if (window.scrollY > 400) {
       bttBtn.classList.add('visible');
     } else {
       bttBtn.classList.remove('visible');
     }
+    bttTicking = false;
   };
-  window.addEventListener('scroll', handleBttVisibility, { passive: true });
+  window.addEventListener('scroll', () => {
+    if (!bttTicking) {
+      window.requestAnimationFrame(handleBttVisibility);
+      bttTicking = true;
+    }
+  }, { passive: true });
   handleBttVisibility();
 
   bttBtn.addEventListener('click', () => {
