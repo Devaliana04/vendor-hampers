@@ -295,8 +295,10 @@
     }
   }, { passive: true });
 
-  // Initial trigger
-  onGlobalScroll();
+  // Initial trigger only if restored scroll position
+  if (window.scrollY > 0) {
+    window.requestAnimationFrame(onGlobalScroll);
+  }
 
   // --- 9. Copy Link Share Button with Toast Feedback ---
   document.querySelectorAll('.share-btn.share-copy').forEach((btn) => {

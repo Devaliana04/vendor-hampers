@@ -47,8 +47,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Preload Hero LCP Image for Mobile & Desktop -->
-  <link rel="preload" as="image" href="assets/img/hero/hero-hampers.webp" type="image/webp" fetchpriority="high"
-    imagesrcset="assets/img/hero/hero-hampers.webp 800w" imagesizes="(max-width:767px) 100vw, 50vw">
+  <link rel="preload" as="image" href="assets/img/hero/hero-hampers.webp" type="image/webp" fetchpriority="high">
 
   <!-- Google Fonts (Non-blocking) -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
@@ -56,6 +55,7 @@
 
   <!-- CRITICAL CSS Inline — prevents render-blocking for above-the-fold content -->
   <style>
+    @font-face{font-family:"bootstrap-icons";font-display:swap;src:url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/fonts/bootstrap-icons.woff2?270a2a1b94b159f81ca973fb9ff59d48") format("woff2"),url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/fonts/bootstrap-icons.woff?270a2a1b94b159f81ca973fb9ff59d48") format("woff")}
     *,*::before,*::after{box-sizing:border-box}
     html{scroll-behavior:smooth;overflow-x:hidden;max-width:100vw}
     body{font-family:Inter,system-ui,-apple-system,sans-serif;color:#263746;background:#fff;font-size:1rem;line-height:1.7;overflow-x:hidden;max-width:100vw;-webkit-font-smoothing:antialiased}
@@ -221,11 +221,11 @@
       <div class="container">
         <div class="row align-items-center g-5">
           <div class="col-lg-5 col-xl-5">
-            <span class="eyebrow fade-up">Hampers untuk Momen Bermakna</span>
-            <h1 class="display-hero fade-up">Hampers Custom untuk Apresiasi yang Lebih Berkesan</h1>
-            <p class="hero-body fade-up">Kami membantu perusahaan, instansi, dan individu memilih serta menyesuaikan
+            <span class="eyebrow">Hampers untuk Momen Bermakna</span>
+            <h1 class="display-hero">Hampers Custom untuk Apresiasi yang Lebih Berkesan</h1>
+            <p class="hero-body">Kami membantu perusahaan, instansi, dan individu memilih serta menyesuaikan
               paket hampers premium — dari isi, kemasan, hingga branding — untuk setiap momen penting Anda.</p>
-            <div class="hero-cta-group fade-up">
+            <div class="hero-cta-group">
               <a href="https://wa.me/6282144267826?text=Halo%2C%20saya%20ingin%20konsultasi%20mengenai%20kebutuhan%20hampers.%20Mohon%20informasi%20pilihan%20paket%2C%20minimum%20pemesanan%2C%20estimasi%20pengerjaan%2C%20dan%20penawaran%20harga.%20Terima%20kasih."
                 class="btn btn-wa" target="_blank" rel="noopener noreferrer" id="cta-hero-wa">
                 <i class="bi bi-whatsapp" aria-hidden="true"></i> Konsultasi via WhatsApp
@@ -237,8 +237,6 @@
           </div>
           <div class="col-lg-7 col-xl-7">
             <img src="assets/img/hero/hero-hampers.webp"
-              srcset="assets/img/hero/hero-hampers.webp 800w"
-              sizes="(max-width: 767px) 100vw, 50vw"
               alt="Hampers premium dengan kotak biru muda, pita ivory, berisi cokelat artisan, bunga kering, dan kartu ucapan"
               class="hero-image" width="800" height="597" fetchpriority="high" loading="eager" decoding="async">
           </div>
