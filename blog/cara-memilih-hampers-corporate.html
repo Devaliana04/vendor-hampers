@@ -212,8 +212,10 @@
             <!-- Hero Image 1 -->
             <figure class="mb-4">
               <img src="../assets/img/packages/hampers-corporate.webp"
+                srcset="../assets/img/packages/hampers-corporate-sm.webp 720w, ../assets/img/packages/hampers-corporate.webp 1000w"
+                sizes="(max-width: 768px) 100vw, 800px"
                 alt="Hampers corporate premium dengan kotak navy dan pita emas, berisi set teh artisan dan item berlogo perusahaan — paket corporate Vendor Hampers Jakarta"
-                class="rounded-4 blog-article-hero-img" width="800" height="597"
+                class="rounded-4 blog-article-hero-img" width="1000" height="746"
                 loading="eager" fetchpriority="high" decoding="async">
               <figcaption><i class="bi bi-camera-fill"></i> Hampers corporate premium dengan kotak rigid dan
                 personalisasi logo perusahaan.</figcaption>
@@ -350,8 +352,10 @@
               <!-- Image 2 -->
               <figure class="my-5">
                 <img src="../assets/img/blog/hampers-corporate-detail.webp"
+                  srcset="../assets/img/blog/hampers-corporate-detail-sm.webp 800w, ../assets/img/blog/hampers-corporate-detail.webp 1200w"
+                  sizes="(max-width: 768px) 100vw, 800px"
                   alt="Detail isi hampers corporate branded: set teh Artisan Blend, madu Acacia honey, kacang gourmet premium dalam kemasan kotak navy berlogo perusahaan — contoh hampers custom branding Vendor Hampers"
-                  class="rounded-4 blog-article-hero-img" width="800" height="597" loading="lazy"
+                  class="rounded-4 blog-article-hero-img" width="1200" height="690" loading="lazy"
                   decoding="async">
                 <figcaption><i class="bi bi-camera-fill"></i> Detail kurasi item hampers: produk artisan dikemas
                   eksklusif dengan sentuhan branding elegan.</figcaption>
@@ -668,6 +672,20 @@
       </div>
     </div>
   </footer>
+
+  <!-- Floating Scroll Navigation Dock (Up / Balik ke Awal & Down / Scroll Cepat) -->
+  <div class="scroll-nav-dock" id="scrollNavDock" role="group" aria-label="Navigasi Halaman Cepat">
+    <button class="scroll-nav-btn scroll-nav-up" type="button" id="scrollNavUp" aria-label="Kembali ke awal halaman" title="Kembali ke Awal (Atas)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+        <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"/>
+      </svg>
+    </button>
+    <button class="scroll-nav-btn scroll-nav-down" type="button" id="scrollNavDown" aria-label="Scroll ke bawah" title="Scroll ke Bawah">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+        <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
+      </svg>
+    </button>
+  </div>
 
   <a href="https://wa.me/6282144267826" class="wa-floating" target="_blank" rel="noopener noreferrer"
     aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>

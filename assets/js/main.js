@@ -310,10 +310,57 @@
     }, { passive: true });
   }
 
-  // Back to Top Button (query existing or create lazily)
-  let bttBtn = document.querySelector('.back-to-top-btn');
-  if (bttBtn) {
-    bttBtn.addEventListener('click', () => {
+  // --- Floating Scroll Navigation Dock (Up & Down / Balik ke Awal & Scroll Cepat) ---
+  let scrollDock = document.getElementById('scrollNavDock');
+  if (!scrollDock) {
+    scrollDock = document.createElement('div');
+    scrollDock.className = 'scroll-nav-dock';
+    scrollDock.id = 'scrollNavDock';
+    scrollDock.setAttribute('role', 'group');
+    scrollDock.setAttribute('aria-label', 'Navigasi Halaman Cepat');
+    scrollDock.innerHTML = `
+      <button class="scroll-nav-btn scroll-nav-up" type="button" id="scrollNavUp" aria-label="Kembali ke awal halaman" title="Kembali ke Awal (Atas)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"/>
+        </svg>
+      </button>
+      <button class="scroll-nav-btn scroll-nav-down" type="button" id="scrollNavDown" aria-label="Scroll ke bawah" title="Scroll ke Bawah">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
+        </svg>
+      </button>
+    `;
+    document.body.appendChild(scrollDock);
+  }
+
+  const btnUp = document.getElementById('scrollNavUp');
+  const btnDown = document.getElementById('scrollNavDown');
+
+  if (btnUp) {
+    btnUp.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  if (btnDown) {
+    btnDown.addEventListener('click', () => {
+      const step = Math.round(window.innerHeight * 0.8);
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      if (window.scrollY + step >= maxScroll - 60) {
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+      } else {
+        window.scrollBy({ top: step, behavior: 'smooth' });
+      }
+    });
+
+    btnDown.addEventListener('dblclick', () => {
+      window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+    });
+  }
+
+  const oldBttBtn = document.querySelector('.back-to-top-btn');
+  if (oldBttBtn) {
+    oldBttBtn.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
@@ -367,11 +414,17 @@
       progBar.style.width = `${Math.min(100, Math.max(0, (scrollY / cachedTotalScrollHeight) * 100))}%`;
     }
 
-    // 3. Back to Top Button (Only toggle when boolean state changes)
-    const shouldBtt = scrollY > 400;
-    if (bttBtn && bttIsVisible !== shouldBtt) {
-      bttIsVisible = shouldBtt;
-      bttBtn.classList.toggle('visible', shouldBtt);
+    // 3. Scroll Nav Dock state (subtly dim Up button when at top, Down when at bottom)
+    if (btnUp) {
+      btnUp.classList.toggle('dimmed', scrollY < 80);
+    }
+    if (btnDown) {
+      const maxScroll = (cachedTotalScrollHeight > 0) ? cachedTotalScrollHeight : (document.documentElement.scrollHeight - window.innerHeight);
+      btnDown.classList.toggle('dimmed', scrollY >= maxScroll - 50);
+    }
+    if (oldBttBtn && bttIsVisible !== (scrollY > 400)) {
+      bttIsVisible = scrollY > 400;
+      oldBttBtn.classList.toggle('visible', bttIsVisible);
     }
 
     // 4. Sidebar TOC Scrollspy (Uses cached .top)
