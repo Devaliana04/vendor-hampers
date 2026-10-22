@@ -196,3 +196,35 @@ img.rounded-4.shadow {
   height: auto !important;
   object-fit: cover !important;
 }
+
+/* Portfolio Case Study Modals - Mobile Responsiveness & Full Scrolling */
+.modal-dialog-scrollable .modal-content {
+  max-height: 92vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.modal-dialog-scrollable .modal-body {
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+@media (max-width: 767.98px) {
+  .modal-dialog {
+    margin: 0.75rem auto !important;
+    max-width: 95% !important;
+  }
+  .portfolio-modal-img {
+    max-height: 200px !important;
+    width: 100% !important;
+    object-fit: cover !important;
+  }
+  .modal-header {
+    padding: 1rem 1rem 0.5rem !important;
+  }
+  .modal-title {
+    font-size: 1.05rem !important;
+    line-height: 1.35 !important;
+  }
+  .modal-body {
+    padding: 0.85rem !important;
+  }
+}
