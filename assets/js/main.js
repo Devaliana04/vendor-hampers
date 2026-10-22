@@ -365,34 +365,36 @@
     });
   }
 
-  // Reading progress height caching (only executed if progBar exists on article pages)
+  // Pre-calculate document scroll metrics asynchronously after initial paint to prevent layout thrashing
   let cachedTotalScrollHeight = 0;
-  if (progBar) {
-    const updateCachedScrollMetrics = () => {
-      window.requestAnimationFrame(() => {
-        cachedTotalScrollHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-      });
-    };
-    if (document.readyState === 'complete') {
+  const updateCachedScrollMetrics = () => {
+    const docEl = document.documentElement;
+    const body = document.body;
+    const scrollH = Math.max(docEl ? docEl.scrollHeight : 0, body ? body.scrollHeight : 0);
+    cachedTotalScrollHeight = Math.max(1, scrollH - window.innerHeight);
+  };
+
+  if (document.readyState === 'complete') {
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(updateCachedScrollMetrics);
+    } else {
+      setTimeout(updateCachedScrollMetrics, 150);
+    }
+  } else {
+    window.addEventListener('load', () => {
       if (window.requestIdleCallback) {
         window.requestIdleCallback(updateCachedScrollMetrics);
       } else {
-        setTimeout(updateCachedScrollMetrics, 300);
+        setTimeout(updateCachedScrollMetrics, 150);
       }
-    } else {
-      window.addEventListener('load', () => {
-        if (window.requestIdleCallback) {
-          window.requestIdleCallback(updateCachedScrollMetrics);
-        } else {
-          setTimeout(updateCachedScrollMetrics, 300);
-        }
-      }, { once: true });
-    }
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(updateCachedScrollMetrics, 200);
-    }, { passive: true });
+    }, { once: true });
   }
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(updateCachedScrollMetrics, 200);
+  }, { passive: true });
 
   // --- High-Performance Unified Passive Scroll Listener (Zero Forced Reflow) ---
   let scrollTicking = false;
@@ -400,7 +402,7 @@
   let bttIsVisible = false;
 
   const onGlobalScroll = () => {
-    const scrollY = window.scrollY;
+    const scrollY = window.scrollY || window.pageYOffset || 0;
 
     // 1. Navbar (Only toggle when boolean state changes to prevent DOM thrashing)
     const shouldScroll = scrollY > 20;
@@ -414,13 +416,12 @@
       progBar.style.width = `${Math.min(100, Math.max(0, (scrollY / cachedTotalScrollHeight) * 100))}%`;
     }
 
-    // 3. Scroll Nav Dock state (subtly dim Up button when at top, Down when at bottom)
+    // 3. Scroll Nav Dock state (Uses cached metrics, zero forced reflow)
     if (btnUp) {
       btnUp.classList.toggle('dimmed', scrollY < 80);
     }
-    if (btnDown) {
-      const maxScroll = (cachedTotalScrollHeight > 0) ? cachedTotalScrollHeight : (document.documentElement.scrollHeight - window.innerHeight);
-      btnDown.classList.toggle('dimmed', scrollY >= maxScroll - 50);
+    if (btnDown && cachedTotalScrollHeight > 0) {
+      btnDown.classList.toggle('dimmed', scrollY >= cachedTotalScrollHeight - 50);
     }
     if (oldBttBtn && bttIsVisible !== (scrollY > 400)) {
       bttIsVisible = scrollY > 400;
@@ -452,9 +453,13 @@
     }
   }, { passive: true });
 
-  // Initial trigger only if restored scroll position
+  // Initial trigger deferred to avoid blocking first paint
   if (window.scrollY > 0) {
-    window.requestAnimationFrame(onGlobalScroll);
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(() => window.requestAnimationFrame(onGlobalScroll));
+    } else {
+      setTimeout(() => window.requestAnimationFrame(onGlobalScroll), 50);
+    }
   }
 
   // --- 9. Copy Link Share Button with Toast Feedback ---

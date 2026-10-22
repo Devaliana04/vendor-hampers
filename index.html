@@ -49,12 +49,13 @@
   <!-- Preload Hero LCP Image for Mobile & Desktop -->
   <link rel="preload" as="image" href="assets/img/hero/hero-hampers-sm.webp" imagesrcset="assets/img/hero/hero-hampers-sm.webp 800w, assets/img/hero/hero-hampers.webp 1200w" imagesizes="(max-width: 767px) calc(100vw - 2.5rem), (max-width: 991px) 700px, 600px" type="image/webp" fetchpriority="high">
 
-  <!-- Preload & Link Custom Stylesheet (Synchronous to eliminate CLS & FOUC) -->
-  <link rel="preload" href="assets/css/style.css" as="style">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Preload & Asynchronously Load Main Stylesheet (Non-blocking, zero render-block) -->
+  <link rel="preload" href="assets/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="assets/css/style.css"></noscript>
 
-  <!-- Google Fonts with zero-shift display=optional -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=optional">
+  <!-- Google Fonts (Non-blocking async with zero layout shift & display=optional) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=optional" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=optional"></noscript>
 
   <!-- CRITICAL CSS Inline — guarantees instant paint with zero layout shift -->
   <style>
@@ -99,6 +100,11 @@
     .card-hampers{border:1px solid #dce7ee;border-radius:0.875rem;overflow:hidden;background:#fff;box-shadow:0 12px 32px rgba(22,51,74,0.08);height:100%;display:flex;flex-direction:column}
     .card-hampers .card-img-wrapper{position:relative;overflow:hidden;aspect-ratio:1000/746}
     .card-hampers .card-img-wrapper img{width:100%;height:100%;object-fit:cover}
+    .card-hampers .card-body{padding:1.5rem;display:flex;flex-direction:column;flex-grow:1}
+    .badge-custom{display:inline-block;padding:0.35rem 0.85rem;background-color:#eaf6fd;color:#267eaf;font-weight:600;font-size:0.8rem;border-radius:50px;margin-bottom:0.75rem;letter-spacing:0.02em}
+    .champagne-line{width:60px;height:3px;background:linear-gradient(90deg,#c8a96b,#e6d5b0);border-radius:2px;margin:1rem auto 0}
+    .card-link-hampers{color:#267eaf;font-weight:600;display:inline-flex;align-items:center;gap:0.4rem;text-decoration:none;font-size:0.95rem;transition:gap 0.2s ease}
+    .card-footer-custom{margin-top:auto;padding-top:1.25rem}
     .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
     .gallery-grid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:0.875rem}
     @media(max-width:575.98px){
