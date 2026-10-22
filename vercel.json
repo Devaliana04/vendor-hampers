@@ -1,0 +1,15 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/blog", "destination": "/blog.html" },
+    { "source": "/paket", "destination": "/paket.html" },
+    { "source": "/portofolio", "destination": "/portofolio.html" }
+  ],
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/blog/index.html", "destination": "/blog", "permanent": true },
+    { "source": "/paket/index.html", "destination": "/paket", "permanent": true },
+    { "source": "/portofolio/index.html", "destination": "/portofolio", "permanent": true }
+  ]
+}

@@ -71,10 +71,9 @@
     .container,.container-fluid{width:100%;padding-right:1.25rem;padding-left:1.25rem;margin-right:auto;margin-left:auto;max-width:1240px}
     .row{display:flex;flex-wrap:wrap;margin-right:-.75rem;margin-left:-.75rem}
     .row>*{flex-shrink:0;width:100%;max-width:100%;padding-right:.75rem;padding-left:.75rem}
-    .col-6{flex:0 0 50%!important;width:50%!important;max-width:50%!important}
-    .footer-hampers .col-6{flex:0 0 50%!important;width:50%!important;max-width:50%!important}
+    .col-6{flex:0 0 auto;width:50%}
     @media(min-width:768px){.col-md-6{flex:0 0 auto;width:50%}.col-md-4{flex:0 0 auto;width:33.333333%}}
-    @media(min-width:992px){.col-lg-2{flex:0 0 auto;width:16.666667%}.col-lg-3{flex:0 0 auto;width:25%}.col-lg-4{flex:0 0 auto;width:33.333333%}.col-lg-5{flex:0 0 auto;width:41.666667%}.col-lg-6{flex:0 0 auto;width:50%}.col-lg-7{flex:0 0 auto;width:58.333333%}.col-lg-8{flex:0 0 auto;width:66.666667%}.navbar-expand-lg{flex-wrap:nowrap;justify-content:flex-start}.navbar-expand-lg .navbar-nav{flex-direction:row}.navbar-expand-lg .navbar-collapse{display:flex!important;flex-basis:auto}.navbar-expand-lg .navbar-toggler{display:none}}
+    @media(min-width:992px){.col-lg-2{flex:0 0 auto;width:16.666667%}.col-lg-3{flex:0 0 auto;width:25%}.col-lg-4{flex:0 0 auto;width:33.333333%}.col-lg-5{flex:0 0 auto;width:41.666667%}.col-lg-6{flex:0 0 auto;width:50%}.col-lg-7{flex:0 0 auto;width:58.333333%}.col-lg-8{flex:0 0 auto;width:66.666667%}.navbar-expand-lg{flex-wrap:nowrap;justify-content:flex-start}.navbar-expand-lg .navbar-nav{flex-direction:row}.navbar-expand-lg .navbar-collapse{display:flex!important;flex-basis:auto}.navbar-expand-lg .navbar-toggler{display:none}.footer-hampers .col-lg-4{flex:0 0 33.333333%!important;width:33.333333%!important;max-width:33.333333%!important}.footer-hampers .col-lg-2{flex:0 0 16.666667%!important;width:16.666667%!important;max-width:16.666667%!important}.footer-hampers .col-lg-3{flex:0 0 25%!important;width:25%!important;max-width:25%!important}}
     .d-flex{display:flex!important}.align-items-center{align-items:center!important}.justify-content-between{justify-content:space-between!important}.ms-auto{margin-left:auto!important}.me-2{margin-right:.5rem!important}
     .skip-link{position:absolute;top:-100%;left:1rem;background:#267eaf;color:#fff;padding:.5rem 1rem;border-radius:.5rem;z-index:9999;font-weight:600}
     .skip-link:focus{top:.5rem;color:#fff}
@@ -98,6 +97,7 @@
       .navbar-hampers .dropdown-item:hover,.navbar-hampers .dropdown-item:focus{background-color:rgba(38,126,175,0.12)!important;color:#267eaf!important}
     }
     @media(max-width:767.98px){
+      .footer-hampers .col-6{flex:0 0 50%!important;width:50%!important;max-width:50%!important}
       .footer-hampers{padding-top:2.5rem!important;padding-bottom:1.75rem!important}
       .footer-hampers .row.g-5{row-gap:1.5rem!important;--bs-gutter-y:1.5rem!important}
       .footer-hampers .footer-heading{font-size:0.95rem!important;margin-bottom:0.65rem!important}
@@ -215,7 +215,7 @@
   <!-- ====== NAVBAR ====== -->
   <nav class="navbar navbar-expand-lg navbar-hampers sticky-top" id="navbar-main" aria-label="Navigasi utama">
     <div class="container">
-      <a class="navbar-brand" href="index.html">
+      <a class="navbar-brand" href="./">
         <img src="assets/img/logo.webp" alt="Logo Vendor Hampers" class="brand-logo" width="48" height="48" loading="eager" decoding="async">
         Vendor Hampers
       </a>
@@ -226,16 +226,16 @@
       <div class="collapse navbar-collapse" id="navbarMain">
         <ul class="navbar-nav ms-auto align-items-lg-center">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.html">Beranda</a>
+            <a class="nav-link active" aria-current="page" href="./">Beranda</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="tentang.html">Tentang</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="paket/index.html" id="navPaket" role="button"
+            <a class="nav-link dropdown-toggle" href="paket.html" id="navPaket" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">Paket</a>
             <ul class="dropdown-menu" aria-labelledby="navPaket">
-              <li><a class="dropdown-item" href="paket/index.html">Semua Paket</a></li>
+              <li><a class="dropdown-item" href="paket.html">Semua Paket</a></li>
               <li><a class="dropdown-item" href="paket/hampers-corporate.html">Hampers Corporate</a></li>
               <li><a class="dropdown-item" href="paket/hampers-hari-raya.html">Hampers Hari Raya</a></li>
               <li><a class="dropdown-item" href="paket/hampers-custom.html">Hampers Custom</a></li>
@@ -243,10 +243,10 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="portofolio/index.html">Portofolio</a>
+            <a class="nav-link" href="portofolio.html">Portofolio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="blog/index.html">Blog</a>
+            <a class="nav-link" href="blog.html">Blog</a>
           </li>
           <li class="nav-item ms-lg-3">
             <a class="btn btn-primary-hampers" href="kontak.html" id="cta-navbar">
@@ -275,7 +275,7 @@
                 class="btn btn-wa" target="_blank" rel="noopener noreferrer" id="cta-hero-wa">
                 <i class="bi bi-whatsapp" aria-hidden="true"></i> Konsultasi via WhatsApp
               </a>
-              <a href="paket/index.html" class="btn btn-secondary-hampers" id="cta-hero-paket">
+              <a href="paket.html" class="btn btn-secondary-hampers" id="cta-hero-paket">
                 <i class="bi bi-box-seam" aria-hidden="true"></i> Jelajahi Paket
               </a>
             </div>
@@ -511,7 +511,7 @@
           </div>
         </div>
         <div class="text-center mt-5 fade-up">
-          <a href="paket/index.html" class="btn btn-secondary-hampers">
+          <a href="paket.html" class="btn btn-secondary-hampers">
             <i class="bi bi-grid-3x3-gap" aria-hidden="true"></i> Lihat Semua Paket
           </a>
         </div>
@@ -732,7 +732,7 @@
             width="400" height="400">
         </div>
         <div class="text-center mt-5 fade-up">
-          <a href="portofolio/index.html" class="btn btn-secondary-hampers">
+          <a href="portofolio.html" class="btn btn-secondary-hampers">
             <i class="bi bi-images" aria-hidden="true"></i> Lihat Semua Portofolio
           </a>
         </div>
@@ -912,7 +912,7 @@
               class="btn btn-wa" target="_blank" rel="noopener noreferrer" id="cta-bottom-wa">
               <i class="bi bi-whatsapp" aria-hidden="true"></i> Konsultasi via WhatsApp
             </a>
-            <a href="paket/index.html" class="btn btn-secondary-hampers"
+            <a href="paket.html" class="btn btn-secondary-hampers"
               style="border-color: rgba(255,255,255,0.3); color: white;" id="cta-bottom-paket">
               <i class="bi bi-box-seam" aria-hidden="true"></i> Lihat Paket
             </a>
@@ -948,10 +948,10 @@
         <div class="col-6 col-md-4 col-lg-2">
           <h3 class="footer-heading">Navigasi</h3>
           <ul class="footer-links">
-            <li><a href="index.html">Beranda</a></li>
+            <li><a href="./">Beranda</a></li>
             <li><a href="tentang.html">Tentang Kami</a></li>
-            <li><a href="portofolio/index.html">Portofolio</a></li>
-            <li><a href="blog/index.html">Blog</a></li>
+            <li><a href="portofolio.html">Portofolio</a></li>
+            <li><a href="blog.html">Blog</a></li>
             <li><a href="#faq">FAQ</a></li>
             <li><a href="kontak.html">Kontak</a></li>
           </ul>
@@ -960,7 +960,7 @@
         <div class="col-6 col-md-4 col-lg-3">
           <h3 class="footer-heading">Kategori Paket</h3>
           <ul class="footer-links">
-            <li><a href="paket/index.html">Semua Paket</a></li>
+            <li><a href="paket.html">Semua Paket</a></li>
             <li><a href="paket/hampers-corporate.html">Hampers Corporate</a></li>
             <li><a href="paket/hampers-hari-raya.html">Hampers Hari Raya</a></li>
             <li><a href="paket/hampers-custom.html">Hampers Custom</a></li>
