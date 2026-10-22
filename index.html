@@ -71,6 +71,8 @@
     .container,.container-fluid{width:100%;padding-right:1.25rem;padding-left:1.25rem;margin-right:auto;margin-left:auto;max-width:1240px}
     .row{display:flex;flex-wrap:wrap;margin-right:-.75rem;margin-left:-.75rem}
     .row>*{flex-shrink:0;width:100%;max-width:100%;padding-right:.75rem;padding-left:.75rem}
+    .col-6{flex:0 0 50%!important;width:50%!important;max-width:50%!important}
+    .footer-hampers .col-6{flex:0 0 50%!important;width:50%!important;max-width:50%!important}
     @media(min-width:768px){.col-md-6{flex:0 0 auto;width:50%}.col-md-4{flex:0 0 auto;width:33.333333%}}
     @media(min-width:992px){.col-lg-2{flex:0 0 auto;width:16.666667%}.col-lg-3{flex:0 0 auto;width:25%}.col-lg-4{flex:0 0 auto;width:33.333333%}.col-lg-5{flex:0 0 auto;width:41.666667%}.col-lg-6{flex:0 0 auto;width:50%}.col-lg-7{flex:0 0 auto;width:58.333333%}.col-lg-8{flex:0 0 auto;width:66.666667%}.navbar-expand-lg{flex-wrap:nowrap;justify-content:flex-start}.navbar-expand-lg .navbar-nav{flex-direction:row}.navbar-expand-lg .navbar-collapse{display:flex!important;flex-basis:auto}.navbar-expand-lg .navbar-toggler{display:none}}
     .d-flex{display:flex!important}.align-items-center{align-items:center!important}.justify-content-between{justify-content:space-between!important}.ms-auto{margin-left:auto!important}.me-2{margin-right:.5rem!important}
@@ -87,7 +89,24 @@
     .navbar-hampers .navbar-toggler{border:none;padding:.5rem;background:transparent;cursor:pointer}
     .navbar-hampers .navbar-toggler-icon{display:inline-block;width:1.5em;height:1.5em;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(38,55,70,0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:center;background-size:100%}
     .brand-logo{width:48px;height:48px;aspect-ratio:1/1;object-fit:contain;border-radius:50%}
-    @media(max-width:991.98px){.navbar-hampers .navbar-collapse{display:none!important}.navbar-hampers .navbar-collapse.show{display:block!important;position:absolute;top:76px;left:0;right:0;background:#fff;border-top:1px solid #dce7ee;padding:1rem;box-shadow:0 12px 32px rgba(22,51,74,0.08);z-index:1030}}
+    @media(max-width:991.98px){
+      .navbar-hampers .navbar-collapse{display:none!important;max-height:calc(100vh - 80px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+      .navbar-hampers .navbar-collapse.show{display:block!important;position:absolute;top:76px;left:0;right:0;background:#fff;border-top:1px solid #dce7ee;padding:1rem 1.25rem;box-shadow:0 12px 32px rgba(22,51,74,0.08);z-index:1030}
+      .navbar-hampers .dropdown-menu{position:static!important;float:none!important;display:none;box-shadow:none!important;border:none!important;background:#f5fbff!important;padding:0.5rem 0.75rem!important;margin:0.25rem 0 0.5rem 0.5rem!important;border-radius:0.5rem!important;border-left:3px solid #267eaf!important;width:calc(100% - 0.5rem)!important;transform:none!important}
+      .navbar-hampers .dropdown-menu.show{display:block!important}
+      .navbar-hampers .dropdown-item{padding:0.45rem 0.75rem!important;font-size:0.9rem!important;color:#263746!important;border-radius:0.375rem!important;display:block!important}
+      .navbar-hampers .dropdown-item:hover,.navbar-hampers .dropdown-item:focus{background-color:rgba(38,126,175,0.12)!important;color:#267eaf!important}
+    }
+    @media(max-width:767.98px){
+      .footer-hampers{padding-top:2.5rem!important;padding-bottom:1.75rem!important}
+      .footer-hampers .row.g-5{row-gap:1.5rem!important;--bs-gutter-y:1.5rem!important}
+      .footer-hampers .footer-heading{font-size:0.95rem!important;margin-bottom:0.65rem!important}
+      .footer-hampers .footer-links li{margin-bottom:0.35rem!important}
+      .footer-hampers .footer-links a{font-size:0.85rem!important}
+      .footer-hampers .footer-desc{font-size:0.85rem!important;line-height:1.55!important;margin-bottom:0.75rem!important}
+      .footer-hampers .footer-social{margin-top:0.75rem!important}
+      .footer-hampers .footer-bottom{margin-top:1.5rem!important;padding-top:1rem!important}
+    }
     .hero-section{background:#f5fbff;padding:clamp(3.5rem,7vw,6.5rem) 0}
     .hero-image{border-radius:1.25rem;box-shadow:0 12px 32px rgba(22,51,74,0.08);width:100%;height:auto;aspect-ratio:1200/895;object-fit:cover}
     .display-hero{font-size:clamp(2.4rem,5vw,4.25rem);font-weight:700;line-height:1.12;color:#16334a}
