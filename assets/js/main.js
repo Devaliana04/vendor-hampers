@@ -51,30 +51,65 @@
     });
   }
 
-  // --- 4. Close Mobile Navbar on Link Click ---
+  // --- 4. Vanilla Mobile Navbar, Dropdown & Accordion (Zero Bootstrap JS dependency) ---
   const navbarCollapse = document.getElementById('navbarMain');
+  const navbarToggler = document.querySelector('.navbar-toggler');
+
+  if (navbarToggler && navbarCollapse) {
+    navbarToggler.addEventListener('click', () => {
+      navbarCollapse.classList.toggle('show');
+      const isExpanded = navbarCollapse.classList.contains('show');
+      navbarToggler.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+    });
+  }
+
   if (navbarCollapse) {
-    const navLinks = navbarCollapse.querySelectorAll('.nav-link:not(.dropdown-toggle)');
+    const navLinks = navbarCollapse.querySelectorAll('.nav-link:not(.dropdown-toggle), .dropdown-item');
     navLinks.forEach((link) => {
       link.addEventListener('click', () => {
-        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
-        if (bsCollapse && navbarCollapse.classList.contains('show')) {
-          bsCollapse.hide();
-        }
-      });
-    });
-
-    // Also close on dropdown item click
-    const dropdownItems = navbarCollapse.querySelectorAll('.dropdown-item');
-    dropdownItems.forEach((item) => {
-      item.addEventListener('click', () => {
-        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
-        if (bsCollapse && navbarCollapse.classList.contains('show')) {
-          bsCollapse.hide();
-        }
+        navbarCollapse.classList.remove('show');
+        if (navbarToggler) navbarToggler.setAttribute('aria-expanded', 'false');
       });
     });
   }
+
+  // Mobile dropdown toggle
+  document.querySelectorAll('.dropdown-toggle').forEach((toggleBtn) => {
+    toggleBtn.addEventListener('click', (e) => {
+      if (window.innerWidth < 992) {
+        e.preventDefault();
+        const menu = toggleBtn.nextElementSibling;
+        if (menu && menu.classList.contains('dropdown-menu')) {
+          menu.classList.toggle('show');
+        }
+      }
+    });
+  });
+
+  // Vanilla Accordion (for FAQ and other collapse accordions)
+  document.querySelectorAll('.accordion-button[data-bs-toggle="collapse"]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetSelector = btn.getAttribute('data-bs-target');
+      const target = targetSelector ? document.querySelector(targetSelector) : null;
+      if (!target) return;
+
+      const parentSelector = target.getAttribute('data-bs-parent');
+      if (parentSelector) {
+        document.querySelectorAll(`${parentSelector} .accordion-collapse.show`).forEach((openEl) => {
+          if (openEl !== target) openEl.classList.remove('show');
+        });
+        document.querySelectorAll(`${parentSelector} .accordion-button:not(.collapsed)`).forEach((openBtn) => {
+          if (openBtn !== btn) openBtn.classList.add('collapsed');
+        });
+      }
+
+      target.classList.toggle('show');
+      btn.classList.toggle('collapsed');
+      const isExpanded = target.classList.contains('show');
+      btn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+    });
+  });
 
   // --- 5. Portfolio & Paket Filter ---
   const filterContainers = document.querySelectorAll('.filter-buttons, .paket-category-nav');
