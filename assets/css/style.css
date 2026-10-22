@@ -163,3 +163,36 @@ img {
     font-size: 1.1rem;
   }
 }
+
+/* --- Zero-CLS Image & Component Sizing Rules --- */
+.hero-image {
+  aspect-ratio: 1200 / 895 !important;
+  width: 100% !important;
+  height: auto !important;
+  object-fit: cover !important;
+}
+.brand-logo {
+  aspect-ratio: 1 / 1 !important;
+  object-fit: contain !important;
+}
+img.rounded-4.shadow {
+  aspect-ratio: 600 / 448 !important;
+  width: 100% !important;
+  height: auto !important;
+  object-fit: cover !important;
+}
+.card-hampers .card-img-wrapper {
+  aspect-ratio: 1000 / 746 !important;
+}
+.card-hampers .card-img-wrapper img {
+  aspect-ratio: 1000 / 746 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+.portfolio-modal-img {
+  aspect-ratio: 1000 / 746 !important;
+  width: 100% !important;
+  height: auto !important;
+  object-fit: cover !important;
+}

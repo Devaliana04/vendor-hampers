@@ -46,9 +46,9 @@
   <!-- Preload Hero LCP Image -->
   <link rel="preload" as="image" href="../assets/img/packages/hampers-custom.webp" type="image/webp" fetchpriority="high">
 
-  <!-- Google Fonts (Non-blocking) -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>
+  <!-- Google Fonts with zero-shift display=optional -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=optional">
+
 
   <!-- Custom CSS (Primary) -->
   <link rel="stylesheet" href="../assets/css/style.css">
@@ -192,7 +192,7 @@
           <div class="col-lg-6">
             <img src="../assets/img/packages/hampers-custom.webp"
               alt="Hampers custom dengan kotak putih biru muda, tumbler personal, lilin aroma, snack premium, dan kartu ucapan"
-              class="rounded-4 shadow" width="600" height="448" style="object-fit: cover; width:100%;"
+              class="rounded-4 shadow" width="600" height="448" style="object-fit: cover; width:100%; height:auto; aspect-ratio: 600/448;"
               loading="eager" fetchpriority="high" decoding="async">
           </div>
         </div>

@@ -47,13 +47,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Preload Hero LCP Image for Mobile & Desktop -->
-  <link rel="preload" as="image" href="assets/img/hero/hero-hampers-sm.webp" imagesrcset="assets/img/hero/hero-hampers-sm.webp 480w, assets/img/hero/hero-hampers.webp 800w" imagesizes="(max-width: 767px) calc(100vw - 2.5rem), (max-width: 991px) 700px, 600px" type="image/webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/img/hero/hero-hampers-sm.webp" imagesrcset="assets/img/hero/hero-hampers-sm.webp 800w, assets/img/hero/hero-hampers.webp 1200w" imagesizes="(max-width: 767px) calc(100vw - 2.5rem), (max-width: 991px) 700px, 600px" type="image/webp" fetchpriority="high">
 
-  <!-- Google Fonts (Non-blocking) -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>
+  <!-- Preload & Link Custom Stylesheet (Synchronous to eliminate CLS & FOUC) -->
+  <link rel="preload" href="assets/css/style.css" as="style">
+  <link rel="stylesheet" href="assets/css/style.css">
 
-  <!-- CRITICAL CSS Inline — prevents render-blocking for above-the-fold content -->
+  <!-- Google Fonts with zero-shift display=optional -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=optional">
+
+  <!-- CRITICAL CSS Inline — guarantees instant paint with zero layout shift -->
   <style>
     @font-face{font-family:"bootstrap-icons";font-display:swap;src:url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/fonts/bootstrap-icons.woff2?270a2a1b94b159f81ca973fb9ff59d48") format("woff2"),url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/fonts/bootstrap-icons.woff?270a2a1b94b159f81ca973fb9ff59d48") format("woff")}
     *,*::before,*::after{box-sizing:border-box}
@@ -82,10 +85,10 @@
     .navbar-hampers .navbar-brand{font-size:1.35rem;font-weight:700;color:#16334a;display:flex;align-items:center;gap:.5rem;text-decoration:none}
     .navbar-hampers .navbar-toggler{border:none;padding:.5rem;background:transparent;cursor:pointer}
     .navbar-hampers .navbar-toggler-icon{display:inline-block;width:1.5em;height:1.5em;background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(38,55,70,0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:center;background-size:100%}
-    .brand-logo{width:48px;height:48px;object-fit:contain;border-radius:50%}
+    .brand-logo{width:48px;height:48px;aspect-ratio:1/1;object-fit:contain;border-radius:50%}
     @media(max-width:991.98px){.navbar-hampers .navbar-collapse{display:none!important}.navbar-hampers .navbar-collapse.show{display:block!important;position:absolute;top:76px;left:0;right:0;background:#fff;border-top:1px solid #dce7ee;padding:1rem;box-shadow:0 12px 32px rgba(22,51,74,0.08);z-index:1030}}
     .hero-section{background:#f5fbff;padding:clamp(3.5rem,7vw,6.5rem) 0}
-    .hero-image{border-radius:1.25rem;box-shadow:0 12px 32px rgba(22,51,74,0.08);width:100%;height:auto;aspect-ratio:800/597;object-fit:cover}
+    .hero-image{border-radius:1.25rem;box-shadow:0 12px 32px rgba(22,51,74,0.08);width:100%;height:auto;aspect-ratio:1200/895;object-fit:cover}
     .display-hero{font-size:clamp(2.4rem,5vw,4.25rem);font-weight:700;line-height:1.12;color:#16334a}
     .eyebrow{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#267eaf;margin-bottom:.75rem;display:inline-block}
     .hero-body{color:#687987;font-size:1.1rem;line-height:1.75;max-width:50ch;margin-bottom:2rem}
@@ -93,6 +96,26 @@
     .btn-primary-hampers{background-color:#267eaf;color:#fff;border:none;padding:.75rem 1.75rem;font-weight:600;font-size:.95rem;border-radius:.5rem;display:inline-flex;align-items:center;gap:.5rem;min-height:48px;cursor:pointer;text-decoration:none;transition:background-color 180ms ease,transform 180ms ease,box-shadow 180ms ease}
     .btn-secondary-hampers{background:transparent;color:#267eaf;border:2px solid #267eaf;padding:.7rem 1.75rem;font-weight:600;font-size:.95rem;border-radius:.5rem;display:inline-flex;align-items:center;gap:.5rem;min-height:48px;cursor:pointer;text-decoration:none;transition:background-color 180ms ease,color 180ms ease,border-color 180ms ease,transform 180ms ease}
     .btn-wa{background:#25d366;color:#fff;border:none;padding:.75rem 1.75rem;font-weight:600;font-size:.95rem;border-radius:.5rem;display:inline-flex;align-items:center;gap:.5rem;min-height:48px;cursor:pointer;text-decoration:none;transition:background-color 180ms ease,transform 180ms ease,box-shadow 180ms ease}
+    .card-hampers{border:1px solid #dce7ee;border-radius:0.875rem;overflow:hidden;background:#fff;box-shadow:0 12px 32px rgba(22,51,74,0.08);height:100%;display:flex;flex-direction:column}
+    .card-hampers .card-img-wrapper{position:relative;overflow:hidden;aspect-ratio:1000/746}
+    .card-hampers .card-img-wrapper img{width:100%;height:100%;object-fit:cover}
+    .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+    .gallery-grid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:0.875rem}
+    @media(max-width:575.98px){
+      :root{--section-space:2.75rem;--header-height:68px}
+      .navbar-hampers{height:68px}
+      .hero-section{padding:2.75rem 0!important}
+      .display-hero{font-size:clamp(1.65rem,6.5vw,2.2rem)!important}
+      .hero-body{font-size:1rem;line-height:1.65;margin-bottom:1.5rem}
+      .hero-cta-group{flex-direction:column}
+      .hero-cta-group .btn-primary-hampers,.hero-cta-group .btn-secondary-hampers,.hero-cta-group .btn-wa{width:100%;justify-content:center}
+      .gallery-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(min-width:576px) and (max-width:767.98px){
+      :root{--section-space:3.25rem}
+      .hero-section{padding:3.25rem 0!important}
+      .display-hero{font-size:clamp(1.85rem,5vw,2.5rem)!important}
+    }
     /* Composited GPU-accelerated smooth animations */
     .fade-up{opacity:0;transform:translate3d(0,15px,0);transition:opacity .3s ease,transform .3s ease;will-change:transform,opacity;backface-visibility:hidden}
     .fade-up.visible{opacity:1;transform:translate3d(0,0,0)}
@@ -101,14 +124,7 @@
     /* Inlined High-Efficiency Bootstrap Icons Subset with font-display: swap */
     .bi::before,[class^="bi-"]::before,[class*=" bi-"]::before{display:inline-block;font-family:"bootstrap-icons"!important;font-style:normal;font-weight:normal!important;font-variant:normal;text-transform:none;line-height:1;vertical-align:-.125em;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
     .bi-chat-dots-fill::before{content:"\f249"}.bi-whatsapp::before{content:"\f618"}.bi-box-seam::before{content:"\f1c7"}.bi-palette-fill::before{content:"\f4b0"}.bi-shield-check::before{content:"\f52f"}.bi-truck::before{content:"\f5ea"}.bi-headset::before{content:"\f414"}.bi-arrow-right::before{content:"\f138"}.bi-info-circle::before{content:"\f431"}.bi-grid-3x3-gap::before{content:"\f3fe"}.bi-brush-fill::before{content:"\f1d7"}.bi-people-fill::before{content:"\f4cf"}.bi-box-seam-fill::before{content:"\f7d3"}.bi-clipboard-check-fill::before{content:"\f71b"}.bi-geo-alt-fill::before{content:"\f3e7"}.bi-chat-heart-fill::before{content:"\f713"}.bi-building::before{content:"\f1dd"}.bi-star-fill::before{content:"\f586"}.bi-calendar-event::before{content:"\f1e8"}.bi-person-badge::before{content:"\f4cb"}.bi-mic-fill::before{content:"\f486"}.bi-trophy-fill::before{content:"\f5e6"}.bi-heart-fill::before{content:"\f415"}.bi-briefcase-fill::before{content:"\f1d0"}.bi-images::before{content:"\f42a"}.bi-clock-history::before{content:"\f293"}.bi-patch-check::before{content:"\f4c2"}.bi-question-circle::before{content:"\f505"}.bi-gift-fill::before{content:"\f3eb"}.bi-instagram::before{content:"\f437"}.bi-linkedin::before{content:"\f472"}.bi-geo-alt::before{content:"\f3e8"}.bi-clock::before{content:"\f292"}.bi-arrow-up::before{content:"\f148"}.bi-check-circle-fill::before{content:"\f26a"}.bi-tag-fill::before{content:"\f5a5"}.bi-box::before{content:"\f1c8"}.bi-gem::before{content:"\f3e6"}.bi-moon-stars-fill::before{content:"\f495"}.bi-star-half::before{content:"\f587"}
-    .back-to-top-btn{position:fixed;bottom:24px;left:24px;width:44px;height:44px;background:#16334a;color:#fff;border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.15rem;box-shadow:0 4px 16px rgba(22,51,74,0.25);z-index:1020;cursor:pointer;opacity:0;visibility:hidden;transform:translate3d(0,10px,0);transition:opacity .2s ease,transform .2s ease,visibility .2s ease;will-change:transform,opacity}
-    .back-to-top-btn.visible{opacity:1;visibility:visible;transform:translate3d(0,0,0)}
-    .back-to-top-btn:hover{background:#267eaf;transform:translate3d(0,-2px,0)}
   </style>
-
-  <!-- Custom CSS (Non-blocking after critical inline) -->
-  <link rel="stylesheet" href="assets/css/style.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="assets/css/style.css"></noscript>
 
   <!-- Valid & Factual Schema.org JSON-LD -->
   <script type="application/ld+json">
