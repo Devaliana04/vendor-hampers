@@ -48,6 +48,47 @@
   <!-- Custom CSS (Primary) -->
   <link rel="stylesheet" href="../assets/css/style.css">
 
+  <style>
+    .filter-buttons .filter-btn {
+      background: #ffffff;
+      border: 1.5px solid var(--color-border, #dce7ee);
+      color: var(--color-ink, #263746);
+      padding: 0.45rem 1.15rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 180ms ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      line-height: 1;
+    }
+    .filter-buttons .filter-btn:hover {
+      border-color: var(--color-sky-600, #267eaf);
+      color: var(--color-sky-600, #267eaf);
+      background: var(--color-sky-50, #f5fbff);
+      transform: translateY(-1px);
+    }
+    .filter-buttons .filter-btn:focus-visible {
+      outline: 3px solid rgba(38, 126, 175, 0.4);
+      outline-offset: 2px;
+    }
+    .filter-buttons .filter-btn.active,
+    .filter-buttons .filter-btn[aria-pressed="true"] {
+      background: var(--color-sky-600, #267eaf) !important;
+      border-color: var(--color-sky-600, #267eaf) !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 8px rgba(38, 126, 175, 0.28);
+    }
+    .blog-article-item {
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+  </style>
+
 
   <!-- Bootstrap Icons (Non-blocking) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" media="print" onload="this.media='all'">
@@ -166,20 +207,18 @@
         <!-- Filter Tabs / Tags -->
         <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 pb-3"
           style="border-bottom: 1px solid var(--color-border);">
-          <div class="d-flex flex-wrap gap-2">
-            <span class="blog-tag"
-              style="background: var(--color-sky-600); color: #fff; border-color: var(--color-sky-600);">Semua
-              (3)</span>
-            <span class="blog-tag">Panduan</span>
-            <span class="blog-tag">Inspirasi</span>
-            <span class="blog-tag">Tips Anggaran</span>
+          <div class="filter-buttons d-flex flex-wrap gap-2" role="tablist" aria-label="Filter Kategori Artikel">
+            <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true" role="tab">Semua (3)</button>
+            <button type="button" class="filter-btn" data-filter="panduan" aria-pressed="false" role="tab">Panduan</button>
+            <button type="button" class="filter-btn" data-filter="inspirasi" aria-pressed="false" role="tab">Inspirasi</button>
+            <button type="button" class="filter-btn" data-filter="tips-anggaran" aria-pressed="false" role="tab">Tips Anggaran</button>
           </div>
-          <span class="small text-muted">Menampilkan 3 artikel terkurasi</span>
+          <span class="small text-muted" id="blog-counter" aria-live="polite">Menampilkan 3 artikel terkurasi</span>
         </div>
 
-        <div class="row g-4">
+        <div class="row g-4" id="blog-articles-grid">
           <!-- Article 1 -->
-          <div class="col-md-6 col-lg-4">
+          <div class="col-md-6 col-lg-4 blog-article-item" data-category="panduan">
             <a href="cara-memilih-hampers-corporate.html" class="text-decoration-none">
               <div class="related-card-enhanced fade-up">
                 <div class="rc-img">
@@ -201,7 +240,7 @@
           </div>
 
           <!-- Article 2 -->
-          <div class="col-md-6 col-lg-4">
+          <div class="col-md-6 col-lg-4 blog-article-item" data-category="inspirasi">
             <a href="ide-isi-hampers-lebaran.html" class="text-decoration-none">
               <div class="related-card-enhanced fade-up">
                 <div class="rc-img">
@@ -223,7 +262,7 @@
           </div>
 
           <!-- Article 3 -->
-          <div class="col-md-6 col-lg-4">
+          <div class="col-md-6 col-lg-4 blog-article-item" data-category="tips-anggaran">
             <a href="tips-anggaran-hampers-perusahaan.html" class="text-decoration-none">
               <div class="related-card-enhanced fade-up">
                 <div class="rc-img">
@@ -232,7 +271,7 @@
                     width="600" height="448" loading="lazy" decoding="async">
                 </div>
                 <div class="rc-body">
-                  <span class="rc-tag">Tips</span>
+                  <span class="rc-tag">Tips Anggaran</span>
                   <h4>Tips Menentukan Anggaran Hampers Perusahaan yang Efektif</h4>
                   <p class="rc-excerpt">Cara menentukan budget hampers yang tepat berdasarkan jumlah penerima, jenis
                     paket, dan level personalisasi.</p>
@@ -242,6 +281,19 @@
                 </div>
               </div>
             </a>
+          </div>
+
+          <!-- Empty State -->
+          <div id="no-articles-found" class="col-12 text-center py-5 d-none">
+            <div class="p-4 rounded-4 mx-auto"
+              style="background: var(--color-sky-50); border: 1px dashed var(--color-border); max-width: 440px;">
+              <i class="bi bi-journal-x text-muted mb-2" style="font-size: 2.2rem; display: block;"></i>
+              <h5 class="fw-bold text-navy-900 mb-1">Belum Ada Artikel</h5>
+              <p class="text-muted small mb-3">Tidak ada artikel dalam kategori yang dipilih.</p>
+              <button type="button" class="btn btn-sm btn-outline-sky"
+                onclick="document.querySelector('.filter-buttons [data-filter=\'all\']').click()">Tampilkan Semua
+                Artikel</button>
+            </div>
           </div>
         </div>
       </div>

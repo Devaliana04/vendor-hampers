@@ -162,12 +162,23 @@
     }
   });
 
-  // --- 5. Portfolio & Paket Filter ---
+  // --- 5. Portfolio, Paket & Blog Filter ---
   const filterContainers = document.querySelectorAll('.filter-buttons, .paket-category-nav');
   filterContainers.forEach((container) => {
     const btns = container.querySelectorAll('.filter-btn');
+    if (!btns.length) return;
+
+    // Detect target items: blog-article-item if on blog page, otherwise portfolio-item
+    const blogItems = document.querySelectorAll('.blog-article-item');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+    const items = blogItems.length > 0 ? blogItems : portfolioItems;
+    const counterEl = document.getElementById('blog-counter');
+    const emptyState = document.getElementById('no-articles-found');
+
     btns.forEach((btn) => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+
         // Update active state within container
         btns.forEach((b) => {
           b.classList.remove('active');
@@ -176,17 +187,52 @@
         btn.classList.add('active');
         btn.setAttribute('aria-pressed', 'true');
 
-        const filter = btn.dataset.filter;
-        const items = document.querySelectorAll('.portfolio-item');
+        const filter = (btn.dataset.filter || 'all').toLowerCase();
+        let visibleCount = 0;
+
         items.forEach((item) => {
-          if (filter === 'all' || item.dataset.category === filter) {
+          const category = (item.dataset.category || '').toLowerCase();
+          const isMatch = filter === 'all' || category === filter || category.includes(filter);
+
+          if (isMatch) {
             item.style.display = '';
-            item.style.opacity = '1';
+            item.classList.remove('d-none');
+            // Ensure card inside is visible
+            const fadeUpEl = item.querySelector('.fade-up');
+            if (fadeUpEl) fadeUpEl.classList.add('visible');
+            requestAnimationFrame(() => {
+              item.style.opacity = '1';
+              item.style.transform = 'translateY(0)';
+            });
+            visibleCount++;
           } else {
-            item.style.display = 'none';
             item.style.opacity = '0';
+            item.style.transform = 'translateY(8px)';
+            item.style.display = 'none';
+            item.classList.add('d-none');
           }
         });
+
+        // Update counter text dynamically
+        if (counterEl) {
+          if (filter === 'all') {
+            counterEl.textContent = `Menampilkan ${visibleCount} artikel terkurasi`;
+          } else {
+            const rawLabel = btn.textContent.replace(/\s*\(\d+\)/, '').trim();
+            counterEl.textContent = `Menampilkan ${visibleCount} artikel (${rawLabel})`;
+          }
+        }
+
+        // Toggle empty state if zero matches
+        if (emptyState) {
+          if (visibleCount === 0) {
+            emptyState.classList.remove('d-none');
+            emptyState.style.display = '';
+          } else {
+            emptyState.classList.add('d-none');
+            emptyState.style.display = 'none';
+          }
+        }
       });
     });
   });
