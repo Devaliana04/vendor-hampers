@@ -310,31 +310,42 @@
     }, { passive: true });
   }
 
-  // Back to Top Button
+  // Back to Top Button (query existing or create lazily)
   let bttBtn = document.querySelector('.back-to-top-btn');
-  if (!bttBtn) {
-    bttBtn = document.createElement('button');
-    bttBtn.className = 'back-to-top-btn';
-    bttBtn.setAttribute('type', 'button');
-    bttBtn.setAttribute('aria-label', 'Kembali ke atas halaman');
-    bttBtn.innerHTML = '<i class="bi bi-arrow-up"></i>';
-    document.body.appendChild(bttBtn);
+  if (bttBtn) {
+    bttBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   }
 
-  bttBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  // Cached scroll metrics to prevent forced reflow during scroll
-  let cachedTotalScrollHeight = 1;
-  const updateCachedScrollMetrics = () => {
-    cachedTotalScrollHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-  };
-  updateCachedScrollMetrics();
-  window.addEventListener('load', updateCachedScrollMetrics, { once: true });
-  window.addEventListener('resize', () => {
-    updateCachedScrollMetrics();
-  }, { passive: true });
+  // Reading progress height caching (only executed if progBar exists on article pages)
+  let cachedTotalScrollHeight = 0;
+  if (progBar) {
+    const updateCachedScrollMetrics = () => {
+      window.requestAnimationFrame(() => {
+        cachedTotalScrollHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      });
+    };
+    if (document.readyState === 'complete') {
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(updateCachedScrollMetrics);
+      } else {
+        setTimeout(updateCachedScrollMetrics, 300);
+      }
+    } else {
+      window.addEventListener('load', () => {
+        if (window.requestIdleCallback) {
+          window.requestIdleCallback(updateCachedScrollMetrics);
+        } else {
+          setTimeout(updateCachedScrollMetrics, 300);
+        }
+      }, { once: true });
+    }
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(updateCachedScrollMetrics, 200);
+    }, { passive: true });
+  }
 
   // --- High-Performance Unified Passive Scroll Listener (Zero Forced Reflow) ---
   let scrollTicking = false;
