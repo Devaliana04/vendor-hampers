@@ -111,6 +111,57 @@
     });
   });
 
+  // Vanilla Modal (Zero Bootstrap JS dependency)
+  const openModal = (modal) => {
+    if (!modal) return;
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeModal = (modal) => {
+    if (!modal) return;
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    if (!document.querySelector('.modal.show')) {
+      document.body.style.overflow = '';
+    }
+  };
+
+  document.querySelectorAll('[data-bs-toggle="modal"]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetSelector = btn.getAttribute('data-bs-target') || btn.getAttribute('href');
+      if (targetSelector) {
+        const targetModal = document.querySelector(targetSelector);
+        if (targetModal) openModal(targetModal);
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-bs-dismiss="modal"]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const parentModal = btn.closest('.modal');
+      if (parentModal) closeModal(parentModal);
+    });
+  });
+
+  document.querySelectorAll('.modal').forEach((modal) => {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal(modal);
+      }
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const activeModal = document.querySelector('.modal.show');
+      if (activeModal) closeModal(activeModal);
+    }
+  });
+
   // --- 5. Portfolio & Paket Filter ---
   const filterContainers = document.querySelectorAll('.filter-buttons, .paket-category-nav');
   filterContainers.forEach((container) => {
@@ -274,38 +325,45 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // --- High-Performance Unified Passive Scroll Listener ---
+  // Cached scroll metrics to prevent forced reflow during scroll
+  let cachedTotalScrollHeight = 1;
+  const updateCachedScrollMetrics = () => {
+    cachedTotalScrollHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+  };
+  updateCachedScrollMetrics();
+  window.addEventListener('load', updateCachedScrollMetrics, { once: true });
+  window.addEventListener('resize', () => {
+    updateCachedScrollMetrics();
+  }, { passive: true });
+
+  // --- High-Performance Unified Passive Scroll Listener (Zero Forced Reflow) ---
   let scrollTicking = false;
+  let navbarIsScrolled = false;
+  let bttIsVisible = false;
+
   const onGlobalScroll = () => {
     const scrollY = window.scrollY;
 
-    // 1. Navbar
-    if (navbar) {
-      if (scrollY > 20) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
+    // 1. Navbar (Only toggle when boolean state changes to prevent DOM thrashing)
+    const shouldScroll = scrollY > 20;
+    if (navbar && navbarIsScrolled !== shouldScroll) {
+      navbarIsScrolled = shouldScroll;
+      navbar.classList.toggle('scrolled', shouldScroll);
     }
 
-    // 2. Reading Progress
-    if (progBar) {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalHeight > 0) {
-        progBar.style.width = `${Math.min(100, Math.max(0, (scrollY / totalHeight) * 100))}%`;
-      }
+    // 2. Reading Progress (Uses cached metrics, zero forced reflow)
+    if (progBar && cachedTotalScrollHeight > 0) {
+      progBar.style.width = `${Math.min(100, Math.max(0, (scrollY / cachedTotalScrollHeight) * 100))}%`;
     }
 
-    // 3. Back to Top Button
-    if (bttBtn) {
-      if (scrollY > 400) {
-        bttBtn.classList.add('visible');
-      } else {
-        bttBtn.classList.remove('visible');
-      }
+    // 3. Back to Top Button (Only toggle when boolean state changes)
+    const shouldBtt = scrollY > 400;
+    if (bttBtn && bttIsVisible !== shouldBtt) {
+      bttIsVisible = shouldBtt;
+      bttBtn.classList.toggle('visible', shouldBtt);
     }
 
-    // 4. Sidebar TOC Scrollspy — use cached .top instead of offsetTop (no forced reflow)
+    // 4. Sidebar TOC Scrollspy (Uses cached .top)
     if (tocSections.length) {
       const scrollPos = scrollY + 140;
       let current = null;
@@ -314,8 +372,8 @@
           current = tocSections[i];
         }
       }
-      tocSections.forEach((s) => s.link.classList.remove('active', 'fw-bold', 'text-sky'));
-      if (current) {
+      if (current && !current.link.classList.contains('active')) {
+        tocSections.forEach((s) => s.link.classList.remove('active', 'fw-bold', 'text-sky'));
         current.link.classList.add('active');
       }
     }
