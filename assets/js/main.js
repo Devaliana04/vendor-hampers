@@ -6,11 +6,22 @@
 (function () {
   'use strict';
 
-  // --- 1. Dynamic Year in Footer ---
-  const yearEl = document.getElementById('footer-year');
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
-  }
+  // Helper: Schedule non-critical work during browser idle periods (Zero TBT)
+  const runWhenIdle = (fn) => {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(fn, { timeout: 1200 });
+    } else {
+      setTimeout(fn, 1);
+    }
+  };
+
+  // --- 1. Dynamic Year in Footer (Deferred) ---
+  runWhenIdle(() => {
+    const yearEl = document.getElementById('footer-year');
+    if (yearEl) {
+      yearEl.textContent = new Date().getFullYear();
+    }
+  });
 
   // --- 2. Navbar Reference ---
   const navbar = document.getElementById('navbar-main');
@@ -357,59 +368,61 @@
   }
 
   // --- Floating Scroll Navigation Dock (Up & Down / Balik ke Awal & Scroll Cepat) ---
-  let scrollDock = document.getElementById('scrollNavDock');
-  if (!scrollDock) {
-    scrollDock = document.createElement('div');
-    scrollDock.className = 'scroll-nav-dock';
-    scrollDock.id = 'scrollNavDock';
-    scrollDock.setAttribute('role', 'group');
-    scrollDock.setAttribute('aria-label', 'Navigasi Halaman Cepat');
-    scrollDock.innerHTML = `
-      <button class="scroll-nav-btn scroll-nav-up" type="button" id="scrollNavUp" aria-label="Kembali ke awal halaman" title="Kembali ke Awal (Atas)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-          <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"/>
-        </svg>
-      </button>
-      <button class="scroll-nav-btn scroll-nav-down" type="button" id="scrollNavDown" aria-label="Scroll ke bawah" title="Scroll ke Bawah">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-          <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
-        </svg>
-      </button>
-    `;
-    document.body.appendChild(scrollDock);
-  }
+  runWhenIdle(() => {
+    let scrollDock = document.getElementById('scrollNavDock');
+    if (!scrollDock) {
+      scrollDock = document.createElement('div');
+      scrollDock.className = 'scroll-nav-dock';
+      scrollDock.id = 'scrollNavDock';
+      scrollDock.setAttribute('role', 'group');
+      scrollDock.setAttribute('aria-label', 'Navigasi Halaman Cepat');
+      scrollDock.innerHTML = `
+        <button class="scroll-nav-btn scroll-nav-up" type="button" id="scrollNavUp" aria-label="Kembali ke awal halaman" title="Kembali ke Awal (Atas)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+            <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"/>
+          </svg>
+        </button>
+        <button class="scroll-nav-btn scroll-nav-down" type="button" id="scrollNavDown" aria-label="Scroll ke bawah" title="Scroll ke Bawah">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+            <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
+          </svg>
+        </button>
+      `;
+      document.body.appendChild(scrollDock);
+    }
 
-  const btnUp = document.getElementById('scrollNavUp');
-  const btnDown = document.getElementById('scrollNavDown');
+    const btnUp = document.getElementById('scrollNavUp');
+    const btnDown = document.getElementById('scrollNavDown');
 
-  if (btnUp) {
-    btnUp.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
+    if (btnUp) {
+      btnUp.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
 
-  if (btnDown) {
-    btnDown.addEventListener('click', () => {
-      const step = Math.round(window.innerHeight * 0.8);
-      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-      if (window.scrollY + step >= maxScroll - 60) {
+    if (btnDown) {
+      btnDown.addEventListener('click', () => {
+        const step = Math.round(window.innerHeight * 0.8);
+        const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        if (window.scrollY + step >= maxScroll - 60) {
+          window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+        } else {
+          window.scrollBy({ top: step, behavior: 'smooth' });
+        }
+      });
+
+      btnDown.addEventListener('dblclick', () => {
         window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
-      } else {
-        window.scrollBy({ top: step, behavior: 'smooth' });
-      }
-    });
+      });
+    }
 
-    btnDown.addEventListener('dblclick', () => {
-      window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
-    });
-  }
-
-  const oldBttBtn = document.querySelector('.back-to-top-btn');
-  if (oldBttBtn) {
-    oldBttBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
+    const oldBttBtn = document.querySelector('.back-to-top-btn');
+    if (oldBttBtn) {
+      oldBttBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  });
 
   // Pre-calculate document scroll metrics asynchronously after initial paint to prevent layout thrashing
   let cachedTotalScrollHeight = 0;
@@ -508,61 +521,63 @@
     }
   }
 
-  // --- 9. Copy Link Share Button with Toast Feedback ---
-  document.querySelectorAll('.share-btn.share-copy').forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const url = window.location.href;
-      navigator.clipboard.writeText(url).then(() => {
-        const origText = btn.innerHTML;
-        btn.innerHTML = '<i class="bi bi-check2"></i> Disalin!';
-        btn.style.background = '#287d57';
-        btn.style.color = '#ffffff';
-        setTimeout(() => {
-          btn.innerHTML = origText;
-          btn.style.background = '';
-          btn.style.color = '';
-        }, 2200);
+  // --- 9. Copy Link Share Button with Toast Feedback (Deferred) ---
+  runWhenIdle(() => {
+    document.querySelectorAll('.share-btn.share-copy').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+          const origText = btn.innerHTML;
+          btn.innerHTML = '<i class="bi bi-check2"></i> Disalin!';
+          btn.style.background = '#287d57';
+          btn.style.color = '#ffffff';
+          setTimeout(() => {
+            btn.innerHTML = origText;
+            btn.style.background = '';
+            btn.style.color = '';
+          }, 2200);
+        });
       });
     });
-  });
 
-  // --- 10. Animated Stats Counter ---
-  const statNumbers = document.querySelectorAll('.stat-number[data-count]');
-  if (statNumbers.length && 'IntersectionObserver' in window) {
-    const animateCounter = (el) => {
-      const target = parseInt(el.getAttribute('data-count'), 10);
-      const duration = 1800;
-      const start = performance.now();
-      const step = (timestamp) => {
-        const elapsed = timestamp - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const current = Math.round(eased * target);
-        el.textContent = current.toLocaleString('id-ID');
-        if (progress < 1) {
-          requestAnimationFrame(step);
-        } else {
-          el.textContent = target.toLocaleString('id-ID');
-        }
-      };
-      requestAnimationFrame(step);
-    };
-
-    const counterObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            animateCounter(entry.target);
-            counterObserver.unobserve(entry.target);
+    // --- 10. Animated Stats Counter (Deferred) ---
+    const statNumbers = document.querySelectorAll('.stat-number[data-count]');
+    if (statNumbers.length && 'IntersectionObserver' in window) {
+      const animateCounter = (el) => {
+        const target = parseInt(el.getAttribute('data-count'), 10);
+        const duration = 1800;
+        const start = performance.now();
+        const step = (timestamp) => {
+          const elapsed = timestamp - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.round(eased * target);
+          el.textContent = current.toLocaleString('id-ID');
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            el.textContent = target.toLocaleString('id-ID');
           }
-        });
-      },
-      { threshold: 0.3 }
-    );
+        };
+        requestAnimationFrame(step);
+      };
 
-    statNumbers.forEach((el) => counterObserver.observe(el));
-  }
+      const counterObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animateCounter(entry.target);
+              counterObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.3 }
+      );
+
+      statNumbers.forEach((el) => counterObserver.observe(el));
+    }
+  });
 
 })();
 

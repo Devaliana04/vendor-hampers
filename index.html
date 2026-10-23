@@ -45,9 +45,11 @@
   <!-- Preconnect CDN & Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 
   <!-- Preload Hero LCP Image for Mobile & Desktop -->
-  <link rel="preload" as="image" href="assets/img/hero/hero-hampers-sm.webp" imagesrcset="assets/img/hero/hero-hampers-sm.webp 800w, assets/img/hero/hero-hampers.webp 1200w" imagesizes="(max-width: 767px) calc(100vw - 2.5rem), (max-width: 991px) 700px, 600px" type="image/webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/img/hero/hero-hampers-sm.webp" imagesrcset="assets/img/hero/hero-hampers-sm.webp 600w, assets/img/hero/hero-hampers.webp 1200w" imagesizes="(max-width: 767px) 100vw, 600px" type="image/webp" fetchpriority="high">
 
   <!-- Preload & Asynchronously Load Main Stylesheet (Non-blocking, zero render-block) -->
   <link rel="preload" href="assets/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -284,8 +286,8 @@
           </div>
           <div class="col-lg-7 col-xl-7">
             <img src="assets/img/hero/hero-hampers.webp"
-              srcset="assets/img/hero/hero-hampers-sm.webp 800w, assets/img/hero/hero-hampers.webp 1200w"
-              sizes="(max-width: 767px) calc(100vw - 2.5rem), (max-width: 991px) 700px, 600px"
+              srcset="assets/img/hero/hero-hampers-sm.webp 600w, assets/img/hero/hero-hampers.webp 1200w"
+              sizes="(max-width: 767px) 100vw, 600px"
               alt="Paket hampers premium eksklusif royal tea set keramik pink berornamen emas, madu murni, tea tin, dan pita satin mewah"
               class="hero-image" width="1200" height="895" fetchpriority="high" loading="eager" decoding="async">
           </div>
@@ -434,22 +436,21 @@
           <div class="col-md-6 col-lg-4">
             <div class="card-hampers fade-up">
               <div class="card-img-wrapper">
-                <img src="assets/img/packages/hampers-corporate.webp"
-                  srcset="assets/img/packages/hampers-corporate-sm.webp 720w, assets/img/packages/hampers-corporate.webp 1000w"
+                <img src="assets/img/portfolio/portfolio-onboarding-kit.webp"
+                  srcset="assets/img/portfolio/portfolio-onboarding-kit-sm.webp 720w, assets/img/portfolio/portfolio-onboarding-kit.webp 1000w"
                   sizes="(max-width:767px) calc(100vw - 2.5rem), (max-width:991px) calc(50vw - 2rem), 386px"
-                  alt="Paket Apresiasi Bisnis berisi set teh premium dan item corporate" width="1000" height="746"
+                  alt="Paket Welcome Onboarding karyawan baru — gift box magnetik dengan hoodie bordir, botol vacuum tumbler, notebook, dan kartu ucapan" width="1000" height="746"
                   loading="lazy" decoding="async">
               </div>
               <div class="card-body">
-                <span class="badge-custom">Corporate</span>
-                <h3 class="card-title"><a href="paket/hampers-corporate.html"
-                    class="text-decoration-none text-navy-900">Paket Apresiasi Bisnis</a></h3>
-                <p class="card-text">Set teh premium, snack artisan, dan item custom berlogo perusahaan dalam kotak
-                  premium.</p>
+                <span class="badge-custom">Corporate Onboarding</span>
+                <h3 class="card-title"><a href="paket/hampers-onboarding.html"
+                    class="text-decoration-none text-navy-900">Paket Welcome Onboarding</a></h3>
+                <p class="card-text">Gift box magnetik premium dengan hoodie bordir custom, tumbler vacuum, notebook eksekutif, dan kartu ucapan sambutan hangat.</p>
                 <div class="card-footer-custom d-flex gap-2">
-                  <a href="paket/hampers-corporate.html" class="btn btn-outline-sky flex-fill justify-content-center"><i
+                  <a href="paket/hampers-onboarding.html" class="btn btn-outline-sky flex-fill justify-content-center"><i
                       class="bi bi-info-circle me-1" aria-hidden="true"></i> Detail</a>
-                  <a href="https://wa.me/6282144267826?text=Halo%2C%20saya%20tertarik%20dengan%20Paket%20Apresiasi%20Bisnis.%20Mohon%20informasi%20harga%20dan%20minimum%20pemesanan.%20Terima%20kasih."
+                  <a href="https://wa.me/6282144267826?text=Halo%2C%20saya%20tertarik%20dengan%20Paket%20Welcome%20Onboarding.%20Mohon%20informasi%20harga%20dan%20minimum%20pemesanan.%20Terima%20kasih."
                     class="btn btn-wa flex-fill justify-content-center" target="_blank" rel="noopener noreferrer">
                     <i class="bi bi-whatsapp me-1" aria-hidden="true"></i> Tanya WA
                   </a>
@@ -715,23 +716,23 @@
         </div>
         <div class="gallery-grid fade-up">
           <img src="assets/img/packages/hampers-corporate-sm.webp"
-            alt="Portofolio hampers corporate dengan kotak navy dan pita emas" loading="lazy" decoding="async"
-            width="400" height="400">
-          <img src="assets/img/packages/hampers-hari-raya-sm.webp"
-            alt="Portofolio hampers hari raya dengan kotak hijau emas" loading="lazy" decoding="async" width="400"
-            height="400">
+            alt="Portofolio hampers corporate apresiasi klien VIP dengan teh artisan dan madu" loading="lazy" decoding="async"
+            width="400" height="300">
+          <img src="assets/img/packages/hampers-lebaran-sm.webp"
+            alt="Portofolio hampers Lebaran Idul Fitri dengan kurma Medjool dan nastar artisan" loading="lazy" decoding="async" width="400"
+            height="300">
           <img src="assets/img/packages/hampers-custom-sm.webp"
-            alt="Portofolio hampers custom dengan kotak putih biru muda" loading="lazy" decoding="async" width="400"
-            height="400">
+            alt="Portofolio hampers custom signature dengan brownies crispy, madu murni, dan tumbler" loading="lazy" decoding="async" width="400"
+            height="300">
           <img src="assets/img/packages/hampers-premium-sm.webp"
-            alt="Portofolio hampers premium dengan keranjang krem dan wine" loading="lazy" decoding="async" width="400"
-            height="400">
+            alt="Portofolio hampers executive luxury dengan sparkling gourmet, wine, dan cokelat Swiss" loading="lazy" decoding="async" width="400"
+            height="300">
+          <img src="assets/img/portfolio/portfolio-onboarding-kit-sm.webp"
+            alt="Portofolio employee welcome onboarding kit dengan box magnetik, hoodie bordir, dan tumbler" loading="lazy" decoding="async"
+            width="400" height="300">
           <img src="assets/img/packages/hampers-natal-sm.webp"
-            alt="Portofolio hampers Natal dan Tahun Baru Merry Christmas festif" loading="lazy" decoding="async"
-            width="400" height="400">
-          <img src="assets/img/blog/hampers-corporate-detail.webp"
-            alt="Portofolio hampers akhir tahun korporat dengan ornamen elegan" loading="lazy" decoding="async"
-            width="400" height="400">
+            alt="Portofolio hampers Natal dan Tahun Baru Merry Christmas festif dengan kue rempah dan cokelat" loading="lazy" decoding="async"
+            width="400" height="300">
         </div>
         <div class="text-center mt-5 fade-up">
           <a href="portofolio.html" class="btn btn-secondary-hampers">

@@ -31,10 +31,25 @@
   <link rel="apple-touch-icon" href="../assets/img/logo.webp">
   <meta name="theme-color" content="#1a3a5c">
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../assets/css/bootstrap-icons.css">
+  <!-- Preconnect CDN & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+
+  <!-- Preload Hero LCP Image -->
+  <link rel="preload" as="image" href="../assets/img/portfolio/portfolio-onboarding-kit.webp" type="image/webp" fetchpriority="high">
+
+  <!-- Google Fonts (Non-blocking async with zero layout shift & display=optional) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=optional" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=optional"></noscript>
+
+  <!-- Custom CSS (Primary) -->
   <link rel="stylesheet" href="../assets/css/style.css">
+
+  <!-- Bootstrap Icons (Non-blocking) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"></noscript>
 
   <!-- Schema.org Product & Breadcrumb -->
   <script type="application/ld+json">
